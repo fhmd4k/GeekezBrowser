@@ -1502,7 +1502,7 @@ ipcMain.handle('start-api-server', async (e, { port }) => {
     try {
         apiServer = createApiServer(port);
         await new Promise((resolve, reject) => {
-            apiServer.listen(port, '127.0.0.1', () => resolve());
+            apiServer.listen(port, '0.0.0.0', () => resolve());
             apiServer.on('error', reject);
         });
         apiServerRunning = true;
@@ -2454,9 +2454,9 @@ app.whenReady().then(async () => {
             if (settings.enableApiServer && !apiServerRunning) {
                 const port = settings.apiPort || 12138;
                 apiServer = createApiServer(port);
-                apiServer.listen(port, '127.0.0.1', () => {
+                apiServer.listen(port, '0.0.0.0', () => {
                     apiServerRunning = true;
-                    console.log(`🔌 Public API Server auto-started on http://localhost:${port}`);
+                    console.log(`🔌 Public API Server auto-started on http://0.0.0.0:${port} (LAN accessible)`);
                 });
                 apiServer.on('error', (err) => {
                     console.error('Public API Server failed to auto-start:', err);
